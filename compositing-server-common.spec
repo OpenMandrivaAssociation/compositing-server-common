@@ -1,7 +1,7 @@
 %define rname compositing-server
 %define name %{rname}-common
 %define version 2007
-%define release %mkrel 6
+%define release %mkrel 7
 
 %define xinit_level 01
 %define xinit_name %{xinit_level}%{rname}
@@ -14,7 +14,7 @@ Group: System/X11
 URL: http://www.mandriva.com
 Source0: %{rname}.xinit
 Source1: %{rname}.sysconfig
-License: GPL
+License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
 Requires: mesa-demos xauth xdpyinfo
 BuildArch: noarch
