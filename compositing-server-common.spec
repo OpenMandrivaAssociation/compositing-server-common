@@ -15,6 +15,7 @@ URL: http://www.mandriva.com
 Source0: %{rname}.xinit
 Source1: %{rname}.sysconfig
 License: GPLv2+
+BuildRoot: %{_tmppath}/%{name}-root
 Requires: mesa-demos xauth xdpyinfo
 BuildArch: noarch
 
