@@ -1,7 +1,7 @@
 %define rname compositing-server
 %define name %{rname}-common
 %define version 2007
-%define release %mkrel 9
+%define release %mkrel 10
 
 %define xinit_level 01
 %define xinit_name %{xinit_level}%{rname}
