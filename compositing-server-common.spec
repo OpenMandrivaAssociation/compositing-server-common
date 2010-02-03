@@ -1,7 +1,7 @@
 %define rname compositing-server
 %define name %{rname}-common
 %define version 2007
-%define release %mkrel 10
+%define release %mkrel 11
 
 %define xinit_level 01
 %define xinit_name %{xinit_level}%{rname}
@@ -16,7 +16,7 @@ Source0: %{rname}.xinit
 Source1: %{rname}.sysconfig
 License: GPLv2+
 BuildRoot: %{_tmppath}/%{name}-root
-Requires: mesa-demos xauth xdpyinfo
+Requires: glxinfo xauth xdpyinfo
 BuildArch: noarch
 
 %description
