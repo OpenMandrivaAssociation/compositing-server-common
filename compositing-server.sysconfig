@@ -1,0 +1,33 @@
+# COMPOSITING_SERVER values:
+#   yes: start compositing server on session start
+#   auto: start compositing server on session start
+#         if direct rendering is available and
+#         GLX_EXT_texture_from_pixmap is not available
+#         in server and client GLX extensions 
+#         (this would mean AIGLX can be preferred)
+#   no
+COMPOSITING_SERVER_START=no
+
+# COMPOSITING_SERVER defines the compositing server to start
+COMPOSITING_SERVER=
+
+# if COMPOSITING_SERVER_DISPLAY is defined, it overrides the default
+# compositing server display
+#COMPOSITING_SERVER_DISPLAY=
+
+# if COMPOSITING_SERVER_ARGS is defined, it overrides the default
+# arguments for the compositing server
+#COMPOSITING_SERVER_ARGS=
+
+# the COMPOSITING_SERVER_SPAWNS_WINDOW variable will be exported by
+# the compositing-server xinit script
+# it indicates if the compositing server spawns a window on the
+# initial X server
+# if set to no, the compositing window manager will have to be run on
+# the initial X display (exported has COMPOSITING_SERVER_DISPLAY_SRC)
+#COMPOSITING_SERVER_SPAWNS_WINDOW=
+
+# if COMPOSITING_SERVER_FORCE_GEOMETRY is "yes", the current display
+# geometry is passed as argument with "-geometry" to the compositing
+# server
+#COMPOSITING_SERVER_FORCE_GEOMETRY=

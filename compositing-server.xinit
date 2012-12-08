@@ -1,0 +1,51 @@
+#!/bin/sh
+# to be sourced
+
+if [ -r ~/.compositing-server ]; then
+      CONFIG=~/.compositing-server
+else
+      CONFIG=/etc/sysconfig/compositing-server
+fi
+[ -r $CONFIG ] && . $CONFIG
+
+[ "$SESSION" = "failsafe" -o "$SESSION" = "drak3d" -o "$SESSION" = "GNOME3Preview" ] && COMPOSITING_SERVER_START=no
+
+if [ "$COMPOSITING_SERVER_START" = "auto" ]; then
+    # auto-start Xgl if direct rendering is available
+    # and GLX_EXT_texture_from_pixmap is not available in server and client GLX extensions
+    # (this would mean AIGLX can be preferred)
+    if grep -q no3ddesktop /proc/cmdline; then
+	COMPOSITING_SERVER_START=no
+    elif glxinfo 2>/dev/null | awk 'BEGIN { no_direct = 1; in_client = 0; server_tfp = 0; client_tfp = 0 } /direct rendering: Yes/ { no_direct = 0 } /GLX_EXT_texture_from_pixmap/ { if (in_client) { client_tfp = 1 } else { server_tfp = 1 } } /client glx extensions:/ { in_client = 1 } /GLX extensions/ { exit } END { exit or(no_direct, and(server_tfp, client_tfp)) }'; then
+	COMPOSITING_SERVER_START=yes
+    else
+	COMPOSITING_SERVER_START=no
+    fi
+fi
+
+if [ "$COMPOSITING_SERVER_START" = "yes" ]; then
+    # read package defaults first
+    SERVER_CONFIG=/usr/share/compositing-server/$COMPOSITING_SERVER.defaults
+    [ -r "$SERVER_CONFIG" ] && . $SERVER_CONFIG
+
+    # allow system defaults to override package defaults
+    [ -r "$CONFIG" ] && . $CONFIG
+
+    xauth -i -n list | while read dpy proto key; do [[ $dpy == *$DISPLAY ]] && echo add ${dpy/%$DISPLAY/$COMPOSITING_SERVER_DISPLAY} $proto $key; done | xauth -q -n
+
+    if [ "$COMPOSITING_SERVER_FORCE_GEOMETRY" = "yes" ]; then
+        geometry=`xdpyinfo | awk '$1 == "dimensions:" { print $2 }'`
+	COMPOSITING_SERVER_ARGS="$COMPOSITING_SERVER_ARGS -geometry $geometry"
+    fi
+
+    $COMPOSITING_SERVER $COMPOSITING_SERVER_DISPLAY $COMPOSITING_SERVER_ARGS &
+
+    COMPOSITING_SERVER_DISPLAY_SRC=$DISPLAY
+    export COMPOSITING_SERVER_DISPLAY_SRC
+
+    DISPLAY=$COMPOSITING_SERVER_DISPLAY
+    export DISPLAY
+
+    # can be defined in server config file
+    export COMPOSITING_SERVER_SPAWNS_WINDOW
+fi
