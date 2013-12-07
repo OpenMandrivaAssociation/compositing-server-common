@@ -4,7 +4,7 @@
 
 Name:		%{rname}-common
 Version:	2010.1
-Release:	3
+Release:	4
 Summary:	Common tools for compositing servers
 Group:		System/X11
 License:	GPLv2+
