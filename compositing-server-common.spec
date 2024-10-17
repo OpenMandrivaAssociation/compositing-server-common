@@ -8,7 +8,7 @@ Release:	7
 Summary:	Common tools for compositing servers
 Group:		System/X11
 License:	GPLv2+
-Url:		http://www.mandriva.com
+Url:		https://www.mandriva.com
 Source0:	%{rname}.xinit
 Source1:	%{rname}.sysconfig
 BuildArch:	noarch
